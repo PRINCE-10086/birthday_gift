@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>给你的18岁生日</title>
+    <meta name="description" content="一个手机端优先的18岁生日祝福网页" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+        href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@400;700;900&family=Noto+Sans+SC:wght@400;500;700&display=swap"
+        rel="stylesheet" />
+    <link rel="stylesheet" href="./style.css" />
+</head>
+
+<body>
+    <video id="bg-video" class="bg-video" autoplay muted loop playsinline webkit-playsinline preload="auto"
+        aria-hidden="true">
+        <source src="./Hatsune%20Miku.mp4" type="video/mp4" />
+    </video>
+    <div class="bg-mask" aria-hidden="true"></div>
+    <button id="music-toggle" class="music-toggle" type="button" aria-label="播放或暂停音乐">
+        <img src="./music.svg" alt="音乐" />
+    </button>
+
+    <main class="app">
+        <header class="hero card">
+            <p class="badge">HAPPY 18TH BIRTHDAY</p>
+            <h1>18岁快乐</h1>
+            <p class="hero-text" id="typed-text">
+                你已经很努力地走过了很多不容易的路<br />
+                今天不用逞强，只要被温柔接住就好
+            </p>
+            <div class="hero-actions">
+                <button id="wish-btn" class="btn" type="button">点我收下一句祝福</button>
+            </div>
+            <p id="wish-output" class="wish-output" aria-live="polite"></p>
+        </header>
+
+        <section class="card panel-reveal">
+            <h2>今天只想对你说</h2>
+            <ul class="gentle-list">
+                <li>你不需要完美，已经有人悄悄喜欢着你</li>
+                <li>很多经历都不是你的错，你值得被尊重和善待</li>
+                <li>就算步子很小，只要还在往前，就已经很了不起！</li>
+            </ul>
+        </section>
+
+        <section class="card panel-reveal">
+            <h2>18条祝福盲盒</h2>
+            <p class="section-tip">每次抽一条，都会出现不同的祝福</p>
+            <div class="wish-actions">
+                <button id="draw-wish" class="btn ghost" type="button">抽一条祝福</button>
+                <button id="show-all-wishes" class="btn ghost" type="button">展开18条</button>
+            </div>
+            <ul id="wish-list" class="wish-list" aria-live="polite"></ul>
+        </section>
+
+        <section class="card panel-reveal">
+            <h2>今天的仪式感</h2>
+            <p id="days-lived" class="status-line">你已经在地球上发光了 0 天</p>
+            <p class="countdown-label">距离下一个生日还有</p>
+            <p id="countdown" class="countdown">计算中...</p>
+        </section>
+
+        <section class="card letter panel-reveal">
+            <h2>给你的小信</h2>
+            <button id="toggle-letter" class="btn ghost" type="button">展开信笺</button>
+            <div id="letter-paper" class="paper" aria-live="polite">
+                <p>
+                    生日快乐！<br />
+                    愿你在新的18岁里，首先要学会把自己放在被爱的位置<br />
+                    愿你遇到的人更温柔，走过的地方更明亮<br />
+                    以后每个难过的夜晚，都慢慢变短一点<br />
+                    我想说的是：你真的真的真的真的非常可爱！希望你能做自己！<br />
+                </p>
+            </div>
+        </section>
+    </main>
+
+    <script src="./script.js"></script>
+</body>
+
+</html>
