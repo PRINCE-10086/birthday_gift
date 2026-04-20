@@ -93,6 +93,11 @@ body.showtime .bg-mask {
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.28);
 }
 
+body.perf-lite .card {
+    backdrop-filter: none;
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.22);
+}
+
 .hero {
     text-align: center;
     padding-top: 1.2rem;
@@ -287,6 +292,10 @@ h2 {
 .petal-svg.layer-back {
     z-index: 18;
     filter: blur(0.3px) saturate(0.95);
+}
+
+body.perf-lite .petal-svg.layer-back {
+    filter: none;
 }
 
 .petal-svg.layer-front {

@@ -11,6 +11,11 @@ const countdownEl = document.getElementById("countdown");
 const revealPanels = document.querySelectorAll(".panel-reveal");
 const bgVideo = document.getElementById("bg-video");
 const musicToggleBtn = document.getElementById("music-toggle");
+const isNarrowScreen = window.matchMedia("(max-width: 768px)").matches;
+const saveDataMode = navigator.connection && navigator.connection.saveData;
+const lowMemoryDevice = navigator.deviceMemory && navigator.deviceMemory <= 4;
+const slowNetwork = navigator.connection && /2g|3g/.test(navigator.connection.effectiveType || "");
+const isLowPerfMode = Boolean(isNarrowScreen || saveDataMode || lowMemoryDevice || slowNetwork);
 
 const heroSentence = "你已经很努力地走过了很多不容易的路。今天不用逞强，只要被温柔接住就好";
 
@@ -53,6 +58,7 @@ const wishPool18 = [
 let lastQuickWish = -1;
 let typeIndex = 0;
 const shownWishIndexes = new Set();
+let ambientTimers = [];
 
 function typeWriter() {
     if (!typedText) {
@@ -107,24 +113,49 @@ function spawnParticle(kind = "petal", layer = "front") {
 }
 
 function startAmbientPetals() {
-    setInterval(() => {
+    const backInterval = isLowPerfMode ? 1200 : 720;
+    const frontInterval = isLowPerfMode ? 820 : 420;
+    const gustInterval = isLowPerfMode ? 7000 : 4800;
+    const gustCount = isLowPerfMode ? 1 : 2;
+
+    const backTimer = setInterval(() => {
         const colorKind = Math.random() < 0.58 ? "miku" : "flower";
         spawnParticle(colorKind, "back");
-    }, 720);
+    }, backInterval);
 
-    setInterval(() => {
+    const frontTimer = setInterval(() => {
         const colorKind = Math.random() < 0.52 ? "flower" : "miku";
         spawnParticle(colorKind, "front");
-    }, 420);
+    }, frontInterval);
 
     // Occasional mini gust for a richer stage-like atmosphere.
-    setInterval(() => {
-        for (let i = 0; i < 2; i += 1) {
+    const gustTimer = setInterval(() => {
+        for (let i = 0; i < gustCount; i += 1) {
             const layer = i % 2 === 0 ? "front" : "back";
             const colorKind = Math.random() < 0.5 ? "miku" : "flower";
             setTimeout(() => spawnParticle(colorKind, layer), i * 80);
         }
-    }, 4800);
+    }, gustInterval);
+
+    ambientTimers = [backTimer, frontTimer, gustTimer];
+}
+
+function stopAmbientPetals() {
+    ambientTimers.forEach((timer) => clearInterval(timer));
+    ambientTimers = [];
+}
+
+function setupVisibilityPerf() {
+    document.addEventListener("visibilitychange", () => {
+        if (document.hidden) {
+            stopAmbientPetals();
+            return;
+        }
+
+        if (ambientTimers.length === 0) {
+            startAmbientPetals();
+        }
+    });
 }
 
 function randomWish() {
@@ -335,8 +366,12 @@ if (musicToggleBtn && bgVideo) {
 }
 
 document.body.classList.add("showtime");
+if (isLowPerfMode) {
+    document.body.classList.add("perf-lite");
+}
 setupReveal();
 setupClickMotion();
+setupVisibilityPerf();
 typeWriter();
 randomWish();
 startAmbientPetals();
